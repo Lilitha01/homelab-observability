@@ -2,17 +2,19 @@ auth_enabled: false
 
 server:
   http_listen_port: 3100
+  grpc_listen_port: 9095
 
-ingester:
-  lifecycler:
-    address: 127.0.0.1
-    ring:
-      kvstore:
-        store: inmemory
-      replication_factor: 1
-    final_sleep: 0s
-  chunk_idle_period: 5m
-  chunk_retain_period: 30s
+common:
+  instance_addr: 127.0.0.1
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
 
 schema_config:
   configs:
@@ -23,13 +25,6 @@ schema_config:
       index:
         prefix: index_
         period: 24h
-
-storage_config:
-  tsdb_shipper:
-    active_index_directory: /loki/index
-    cache_location: /loki/boltdb-cache
-  filesystem:
-    directory: /loki/chunks
 
 limits_config:
   reject_old_samples: true
