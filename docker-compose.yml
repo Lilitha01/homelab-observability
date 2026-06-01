@@ -86,3 +86,15 @@ services:
     depends_on:
       - prometheus
       - loki
+  
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - "8096:8096"
+    volumes:
+      - ./jellyfin/config:/config
+      - /srv/media:/media
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://100.102.249.11
